@@ -1,0 +1,7 @@
+__pycache__/
+examples/data/
+
+*.py[cod]
+*.egg-info/
+.installed.cfg
+*.egg

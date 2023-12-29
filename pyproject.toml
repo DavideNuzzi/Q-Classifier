@@ -1,0 +1,9 @@
+[project]
+name = "qclassifier"
+version = "0.1"
+dependencies = [
+    "numpy",
+    "torch",
+    "matplotlib",
+    "qutip"
+]
