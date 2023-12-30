@@ -1,3 +1,4 @@
+import os
 import torch
 import numpy as np
 import matplotlib.image as img
@@ -13,25 +14,25 @@ def get_sample_data(dataset_type, N_train, N_test):
         data_train = one_circle(N_train)
         data_test = one_circle(N_test)
 
-    if dataset_type == '3 circles':
+    elif dataset_type == '3 circles':
         data_train = three_circles(N_train)
         data_test = three_circles(N_test)
 
-    if dataset_type == 'diagonal band':
+    elif dataset_type == 'diagonal band':
         data_train = diagonal_band(N_train)
         data_test = diagonal_band(N_test)
 
-    if dataset_type == 'one piece logo':
+    elif dataset_type == 'one piece':
         data_train = one_piece(N_train)
         data_test = one_piece(N_test)
 
-    if dataset_type == 'mnist 2':
+    elif dataset_type == 'mnist 2':
         data_train, data_test = mnist(N_train, N_test, 2)
 
-    if dataset_type == 'mnist 3':
+    elif dataset_type == 'mnist 3':
         data_train, data_test = mnist(N_train, N_test, 3)
 
-    if dataset_type == 'mnist':
+    elif dataset_type == 'mnist':
         data_train, data_test = mnist(N_train, N_test)
 
     return data_train, data_test
@@ -115,16 +116,14 @@ def one_piece(N):
     X = torch.zeros((N, 2))
     Y = torch.zeros(N, dtype=torch.int)
 
-    # Carico l'immagine di OP
-    image = img.imread('OnePieceLogo_3C.png')
+    image = img.imread(os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), 'img', 'logo.png'))
 
-    # I colori di ogni classe li devo conoscere
     cols = np.zeros((5, 3))
-    cols[0, :] = [0, 0, 0]  # Sfondo
-    cols[1, :] = [1, 1, 1]  # Teschio
-    cols[2, :] = [0, 0, 1]  # Cerchio
-    cols[3, :] = [1, 1, 0]  # Cappello
-    cols[4, :] = [1, 0, 0]  # Fascia
+    cols[0, :] = [0, 0, 0]  # Background
+    cols[1, :] = [1, 1, 1]  # Skull
+    cols[2, :] = [0, 0, 1]  # Circle
+    cols[3, :] = [1, 1, 0]  # Hat
 
     for n in range(N):
 

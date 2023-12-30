@@ -1,6 +1,6 @@
 __pycache__/
-examples/data/
-
+data/
+Main_MNIST.ipynb
 *.py[cod]
 *.egg-info/
 .installed.cfg
