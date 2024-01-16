@@ -27,11 +27,11 @@ def best_initial_conditions(model, data, epochs=5, batch_size=20, samples=20):
         model_untrained = copy.deepcopy(model)
 
         # Ricreo l'ottimizzatore
-        optimizer = torch.optim.Adam(model.parameters())
+        optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
 
         result = train(model, optimizer, data, epochs=epochs,
                        batch_size=batch_size, show_progress=False)
-        
+
         loss = result['Train loss'][-1]
 
         if loss < best_loss:

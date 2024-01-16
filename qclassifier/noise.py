@@ -11,18 +11,17 @@ class NoiseChannel(nn.Module, ABC):
         super().__init__()
 
         self.device = device
-        self.K = torch.zeros((2, 2, 1), dtype=torch.cfloat, device=device)
 
-    def forward(self, rho):
+    def forward(self, rho, K):
 
-        # Applico il canale
-        # Deve funzionare sia per il caso multi-qubit che per il singolo
+        # Check if we are working with more than one qubit and apply
+        # the channel accordingly
         if rho.dim() == 3:
             return torch.einsum('imk, bmn , jnk -> bij',
-                                self.K, rho, torch.conj(self.K))
+                                K, rho, torch.conj(K))
         else:
             return torch.einsum('imk, bcmn , jnk -> bcij',
-                                self.K, rho, torch.conj(self.K))
+                                K, rho, torch.conj(K))
 
 
 class DepolarizingChannel(NoiseChannel):
@@ -42,6 +41,9 @@ class DepolarizingChannel(NoiseChannel):
         self.K[:, :, 1] = np.sqrt(p/4) * torch.tensor([[0, 1], [1, 0]])
         self.K[:, :, 2] = np.sqrt(p/4) * torch.tensor([[0, -1j], [1j, 0]])
         self.K[:, :, 3] = np.sqrt(p/4) * torch.tensor([[1, 0], [0, -1]])
+
+    def forward(self, rho):
+        return super().forward(rho, self.K)
 
 
 class ThermalRelaxationChannel(NoiseChannel):
@@ -67,3 +69,6 @@ class ThermalRelaxationChannel(NoiseChannel):
         self.K[:, :, 3] = np.sqrt(p_r0) * torch.tensor([[0, 1], [0, 0]])
         self.K[:, :, 4] = np.sqrt(p_r1) * torch.tensor([[0, 0], [1, 0]])
         self.K[:, :, 5] = np.sqrt(p_r1) * torch.tensor([[0, 0], [0, 1]])
+
+    def forward(self, rho):
+        return super().forward(rho, self.K)

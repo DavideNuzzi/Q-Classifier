@@ -1,5 +1,6 @@
 __pycache__/
 data/
+examples/
 Main_MNIST.ipynb
 *.py[cod]
 *.egg-info/
