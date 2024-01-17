@@ -43,17 +43,6 @@ class ClassifierSingleQubitChunked(SingeQubitClassifierBase):
         self.to(device)
 
 
-# --------------------------------------------------------------------------- #
-#                             Improved ClassifierX                            #
-# --------------------------------------------------------------------------- #
-# La mia versione migliorata, che invece di dividere gli input in blocchi da 3
-# lavora direttamente su tutto l'input, mappandolo su 3 angoli distinti e
-# costruendo un solo unitario. Questa cosa aumenta il numero di parametri ma al
-# contempo riduce notevolmente il numero di operazioni da fare (sia al livello
-# di rete neurale che su un computer quantistico) e conseguentemente oltre a
-# risparmiare tempo minimizza anche il numero di volte in cui possono esserci
-# errori dovuti al rumore.
-
 class ClassifierSingleQubit(SingeQubitClassifierBase):
 
     """Improved version of the ClassifierSingleQubitChunked that does not need
@@ -92,14 +81,6 @@ class ClassifierSingleQubit(SingeQubitClassifierBase):
         # Move the model on the GPU if needed
         self.to(device)
 
-
-# --------------------------------------------------------------------------- #
-#                            Multi-qubit classifier                           #
-# --------------------------------------------------------------------------- #
-# Lavora con C qubit, uno per classe, per poi proiettare sulla base
-# computazionale e ottenere una probabilità per ognuna delle classi. La
-# probabilità più alta indica la classe vincente. Può essere facilmente
-# generalizzato a una classificazione multi-label
 
 class ClassifierMultiQubit(MultiQubitClassifierBase):
 

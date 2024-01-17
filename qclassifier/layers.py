@@ -89,7 +89,7 @@ class QLayerChunked(QLayerBase):
     def init_parameters(self):
 
         torch.nn.init.normal_(self.w, std=np.sqrt(2 / 3))  # Weights
-        torch.nn.init.normal_(self.theta)  # Biases
+        torch.nn.init.zeros_(self.theta)  # Biases
 
     def forward(self, rho, x):
 
@@ -226,14 +226,6 @@ class QLayer(QLayerBase):
 
         return rho
 
-
-# --------------------------------------------------------------------------- #
-#                          Multi-qubit implementation                         #
-# --------------------------------------------------------------------------- #
-# Aggiungo la possibilità di lavorare su più qubit in contemporanea, utile
-# principalmente per un classificatore con un qubit per classe in output. In
-# futuro si potrebbe implementare l'entanglement. Sono necessari 3 * C * (D +
-# 1) parametri a livello.
 
 class QLayerMultiQubit(QLayerBase):
 

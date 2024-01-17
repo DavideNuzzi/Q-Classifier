@@ -271,10 +271,8 @@ class MultiQubitClassifierBase(QuantumClassifier, ABC):
     def get_fidelity(self, rho):
 
         # Get the fidelity for each qubit (probability of the up state)
-        return torch.real(rho[:, :, 1, 1])
-
-        # return torch.einsum('c,bc -> bc', self.alpha,
-        #                     torch.real(rho[:, :, 1, 1]))
+        return torch.einsum('c,bc -> bc', self.alpha,
+                            torch.real(rho[:, :, 1, 1]))
 
     def reset_parameters(self):
 

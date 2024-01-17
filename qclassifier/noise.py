@@ -6,6 +6,16 @@ from torch import nn
 
 class NoiseChannel(nn.Module, ABC):
 
+    """Abstract base class for all the noise channels.
+    Each derived class must define a set of Kraus operators which are then
+    passed to the forward pass of the channel.
+
+    Parameters
+    ----------
+    device : string
+        Device to run the model on (cpu or gpu)
+    """
+
     def __init__(self, device='cpu'):
 
         super().__init__()
@@ -26,9 +36,17 @@ class NoiseChannel(nn.Module, ABC):
 
 class DepolarizingChannel(NoiseChannel):
 
-    # Simple depolarizing channel parametrized by the probability p. TODO:
-    # calculate the probability p using the gate times T1, T2, Tg and the
-    # parameter epsilon
+    """Simple depolarizing channel parametrized by the probability p.
+    TODO: calculate the probability p using the gate times T1, T2, Tg and the
+    parameter epsilon
+
+    Parameters
+    ----------
+    p : float
+        Probability of depolarization
+    device : string
+        Device to run the model on (cpu or gpu)
+    """
 
     def __init__(self, p=0, device='cpu'):
 
@@ -47,11 +65,22 @@ class DepolarizingChannel(NoiseChannel):
 
 
 class ThermalRelaxationChannel(NoiseChannel):
+    """Simple thermal relaxation channel, parametrized by the phase flip
+    probability p_z, and the reset probabilities p_r0 and p_r1.
+    TODO: calculate the probabilities using the gate times T1, T2, Tg and the
+    temperature.
 
-    # Simple thermal relaxation channel, parametrized by the phase flip
-    # probability p_z, and the reset probabilities p_r0 and p_r1. TODO:
-    # calculate the probabilities using the gate times T1, T2, Tg and the
-    # temperature.
+    Parameters
+    ----------
+    p_z : float
+        Probability of phase flip
+    p_r0 : float
+        Probability of reset to |0>
+    p_r1 : float
+        Probability of reset to |1>
+    device : string
+        Device to run the model on (cpu or gpu)
+    """
 
     def __init__(self, p_z=0, p_r0=0, p_r1=0, device='cpu'):
 

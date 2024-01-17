@@ -129,13 +129,10 @@ def one_piece(N):
 
         X[n, :] = 2 * torch.rand((1, 2)) - 1
 
-        # Vedo in che pixel cade questo punto e il colore corrispondente
         i = int(np.floor((1 - X[n, 1]) / 2 * image.shape[1]))
         j = int(np.floor((X[n, 0] + 1) / 2 * image.shape[0]))
 
         c = image[i, j, :]
-
-        # Controllo a quale colore è più vicino e deduco la classe
         c = c[np.newaxis, :]
         c = np.tile(c, (5, 1))
 
@@ -147,23 +144,19 @@ def one_piece(N):
 # ---------------------------------- MNIST ---------------------------------- #
 def mnist(N_train, N_test, classes=10):
 
-    # Le immagini vanno ridimensionate e trasformate in tensori
     transf = transforms.Compose(
         [transforms.ToTensor(), transforms.Resize((10, 10), antialias=True)])
     mnist_ds = datasets.MNIST(
         root='./data', train=True, download=True, transform=transf)
 
-    # Carico le immagini che mi servono e le label corrispondenti
     X = torch.stack([sample[0].view(1, -1) for sample in mnist_ds])
     X = torch.reshape(X, (60000, 10*10))
     Y = mnist_ds.targets
 
-    # Elimino le classi in più, se necessario
     if classes < 10:
         X = X[Y < classes, :]
         Y = Y[Y < classes]
 
-    # Divido in training e test set
     X_train = X[0:N_train, :]
     Y_train = Y[0:N_train]
     X_test = X[N_train:(N_train + N_test), :]

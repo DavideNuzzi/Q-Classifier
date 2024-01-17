@@ -1,8 +1,13 @@
 __pycache__/
 data/
-examples/
-Main_MNIST.ipynb
+img/
+*.png
 *.py[cod]
 *.egg-info/
 .installed.cfg
 *.egg
+examples/Main_MNIST.ipynb
+examples/Qiskit_test.ipynb
+
+qclassifier/examples/Main_MNIST.ipynb
+qclassifier/examples/Qiskit_test.ipynb
